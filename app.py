@@ -71,19 +71,11 @@ if selected_kabupaten != 'Semua Wilayah':
 if selected_bencana != 'Semua Jenis Bencana':
     df_filtered = df_filtered[df_filtered['Jenis_Bencana'] == selected_bencana]
 
-# LOGIKA METRIK BERDASARKAN FILTER TANGGAL
-if selected_day == "Semua Hari (Total Kumulatif)":
-    display_day_title = "Total Kumulatif Bencana"
-    mengungsi_val = df_harian['Total_Mengungsi_Day'].max()
-    meninggal_val = df_harian['Total_Meninggal_Day'].max()
-    # Delta disesuaikan untuk mode total
-    delta_mengungsi_text = f"Tren Harian Terakhir: +{(df_harian.iloc[-1]['Total_Mengungsi_Day'] - df_harian.iloc[-2]['Total_Mengungsi_Day']):,} Jiwa"
-    delta_meninggal_text = f"Tren Harian Terakhir: +{(df_harian.iloc[-1]['Total_Meninggal_Day'] - df_harian.iloc[-2]['Total_Meninggal_Day'])} Jiwa"
-    
-else:
-    # Jika Hari spesifik dipilih (Snapshot Harian)
-    selected_day_int = int(selected_day)
-    day_data = df_harian[df_harian['Day'] == selected_day_int].iloc[0]
+# --- Metrik Utama Harian (Disajikan sebagai ringkasan) ---
+day_data = df_harian[df_harian['Day'] == selected_day].iloc[0]
+kerugian_harian = day_data['Total_Kerugian_Day']
+mengungsi_harian = day_data['Total_Mengungsi_Day']
+meninggal_harian = day_data['Total_Meninggal_Day']
 
 st.header(f"🎯 Metrik Kritis Hari ke-{selected_day} (Pembaruan Real-Time)")
 col1, col2, col3 = st.columns(3)
