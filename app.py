@@ -113,6 +113,25 @@ with tab1:
     st.warning("""
         **KESIMPULAN VISUAL ZONA MERAH:** Wilayah yang terletak di kuadran Kanan Atas (Kerugian & Pengungsi tinggi) seperti **Lima Puluh Kota** harus menjadi target intervensi utama.
     """)
+    
+    # --- VISUALISASI TAMBAHAN: Ranking Kerugian (Untuk Densitas Visual) ---
+    st.subheader("Ranking Wilayah dengan Kerugian Terbesar")
+    
+    df_ranking = df_hotspot.sort_values(by='Kerugian_Rupiah_Miliar', ascending=False).head(5)
+
+    fig1_b = px.bar(
+        df_ranking,
+        x='Kerugian_Rupiah_Miliar',
+        y='Kabupaten_Kota',
+        orientation='h',
+        title='Top 5 Wilayah Berdasarkan Kerugian Finansial (Miliar Rp)',
+        labels={'Kerugian_Rupiah_Miliar': 'Kerugian (Miliar Rupiah)', 'Kabupaten_Kota': 'Wilayah'},
+        color='Kerugian_Rupiah_Miliar',
+        color_continuous_scale=px.colors.sequential.Sunsetdark
+    )
+    fig1_b.update_layout(yaxis={'categoryorder':'total ascending'})
+    st.plotly_chart(fig1_b, use_container_width=True)
+    # --- AKHIR VISUALISASI TAMBAHAN ---
 
 with tab2:
     st.header("Analisis Sumber Biaya dan Kerugian")
